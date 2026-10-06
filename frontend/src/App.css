@@ -1,0 +1,38 @@
+/* Application-specific styles are intentionally kept small.
+   Tailwind utility classes provide most of the styling. */
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.sidebar-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: inherit;
+  text-align: left;
+}
+
+.sidebar-logout:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

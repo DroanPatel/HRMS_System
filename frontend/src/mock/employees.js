@@ -1,0 +1,10 @@
+export const mockEmployees = [
+  { id: 1, employeeId: "EMP001", name: "Alex Morgan", email: "alex@hrms.com", department: "Human Resources", designation: "HR Administrator", type: "Full Time", status: "Active", joiningDate: "2023-01-15", manager: "Executive Team", location: "Atlanta" },
+  { id: 2, employeeId: "EMP002", name: "John Doe", email: "john@hrms.com", department: "Engineering", designation: "Software Engineer", type: "Full Time", status: "Active", joiningDate: "2024-02-10", manager: "Alex Morgan", location: "Atlanta" },
+  { id: 3, employeeId: "EMP003", name: "Sarah Williams", email: "sarah@hrms.com", department: "Finance", designation: "Financial Analyst", type: "Full Time", status: "Active", joiningDate: "2022-09-18", manager: "Robert King", location: "New York" },
+  { id: 4, employeeId: "EMP004", name: "Michael Brown", email: "michael@hrms.com", department: "Engineering", designation: "Senior Developer", type: "Full Time", status: "Active", joiningDate: "2021-06-05", manager: "Alex Morgan", location: "Austin" },
+  { id: 5, employeeId: "EMP005", name: "Emily Davis", email: "emily@hrms.com", department: "Marketing", designation: "Marketing Specialist", type: "Part Time", status: "On Leave", joiningDate: "2024-04-20", manager: "Robert King", location: "Atlanta" },
+  { id: 6, employeeId: "EMP006", name: "Daniel Wilson", email: "daniel@hrms.com", department: "Sales", designation: "Sales Manager", type: "Full Time", status: "Active", joiningDate: "2020-11-12", manager: "Executive Team", location: "Chicago" },
+  { id: 7, employeeId: "EMP007", name: "Olivia Taylor", email: "olivia@hrms.com", department: "Engineering", designation: "QA Engineer", type: "Contract", status: "Active", joiningDate: "2025-01-09", manager: "Michael Brown", location: "Austin" },
+  { id: 8, employeeId: "EMP008", name: "James Anderson", email: "james@hrms.com", department: "Finance", designation: "Accountant", type: "Full Time", status: "Inactive", joiningDate: "2019-03-25", manager: "Sarah Williams", location: "New York" },
+];
