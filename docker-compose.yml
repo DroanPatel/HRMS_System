@@ -3,15 +3,15 @@ services:
     image: postgres:18
     container_name: hrms-db
     environment:
-      POSTGRES_DB: hrms_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: ${POSTGRES_DB:-hrms_db}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5433:5432"
     volumes:
       - postgres_data_18:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d hrms_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-hrms_db}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -26,10 +26,13 @@ services:
     container_name: hrms-backend
     environment:
       DJANGO_DEBUG: "True"
-      POSTGRES_DB: hrms_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: qwerty
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?Set DJANGO_SECRET_KEY in .env}
+      DJANGO_ALLOWED_HOSTS: ${PUBLIC_HOST:-localhost},localhost,127.0.0.1
+      POSTGRES_DB: ${POSTGRES_DB:-hrms_db}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_HOST: db
+      FRONTEND_URL: http://${PUBLIC_HOST:-localhost}:5173
     ports:
       - "8000:8000"
     depends_on:
@@ -45,7 +48,7 @@ services:
       target: frontend
     container_name: hrms-frontend
     environment:
-      VITE_API_BASE_URL: "http://localhost:8000/api"
+      VITE_API_BASE_URL: "http://${PUBLIC_HOST:-localhost}:8000/api"
     ports:
       - "5173:5173"
     depends_on:
@@ -53,10 +56,8 @@ services:
     networks:
       - hrms-network
 
-# Persistent database storage
 volumes:
   postgres_data_18:
 
-# Private network for the services
 networks:
   hrms-network:
