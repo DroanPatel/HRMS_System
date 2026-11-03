@@ -47,3 +47,8 @@ desktop.ini
 *.sql
 *.dump
 *.bak
+
+# ===== Keys / archives =====
+*.pem
+*.key
+*.tar
