@@ -35,7 +35,7 @@ export default function Login() {
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <div className="hidden w-1/2 bg-slate-950 p-12 text-white lg:flex lg:flex-col lg:justify-between">
         <div>
-          <div className="text-2xl font-bold text-blue-400">HRMS</div>
+          <div className="text-2xl font-bold text-blue-400">HRMS CI/CD test</div>
           <p className="mt-2 text-sm text-slate-400">Human Resource Management System</p>
         </div>
         <div>
