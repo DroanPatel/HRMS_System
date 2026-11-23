@@ -182,3 +182,86 @@ jobs:
             ghcr.io/droanpatel/hrms-frontend:latest
             ghcr.io/droanpatel/hrms-frontend:${{ github.sha }}
 
+
+  deploy-local:
+    name: Deploy HRMS to Windows Docker Desktop
+    runs-on: [self-hosted, Windows, X64]
+
+    needs:
+      - publish-images
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: read
+      packages: read
+
+    defaults:
+      run:
+        shell: powershell
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify Docker Desktop
+        run: |
+          docker info --format '{{.OSType}}'
+          docker compose version
+
+      - name: Verify local environment file
+        run: |
+          $envPath = "C:\Users\Admin\OneDrive\Documents\HRMS_System\.env"
+          if (-not (Test-Path $envPath)) {
+            throw "Local .env file not found."
+          }
+
+      - name: Login to private GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and deploy HRMS containers
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          $envPath = "C:\Users\Admin\OneDrive\Documents\HRMS_System\.env"
+
+          docker compose `
+            --project-name hrms_system `
+            --env-file "$envPath" `
+            -f docker-compose.deploy.yml `
+            pull
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Docker image pull failed."
+          }
+
+          docker compose `
+            --project-name hrms_system `
+            --env-file "$envPath" `
+            -f docker-compose.deploy.yml `
+            up -d --no-build
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Docker deployment failed."
+          }
+
+      - name: Verify deployed containers
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          $envPath = "C:\Users\Admin\OneDrive\Documents\HRMS_System\.env"
+
+          docker compose `
+            --project-name hrms_system `
+            --env-file "$envPath" `
+            -f docker-compose.deploy.yml `
+            ps
+
+      - name: Logout from GHCR
+        if: always()
+        run: docker logout ghcr.io
+
